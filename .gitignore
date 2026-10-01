@@ -1,0 +1,34 @@
+# ──────────────────────────────────────────────────────────────
+# .gitignore — RP-AGB
+# ──────────────────────────────────────────────────────────────
+
+# Variables de entorno — NUNCA commitear
+.env
+.env.local
+.env.*.local
+
+# Dependencias
+node_modules/
+**/node_modules/
+
+# Build de Next.js
+frontend/.next/
+frontend/out/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.suo
+*.user
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Docker volumes locales
+.docker-data/

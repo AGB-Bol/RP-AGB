@@ -1,0 +1,39 @@
+# ──────────────────────────────────────────────────────────────
+# docker-compose.yml — RP-AGB
+#
+# USO:
+#   Primera vez / después de cambiar package.json:
+#     docker compose up --build
+#
+#   Día a día:
+#     docker compose up
+#
+#   Bajar todo:
+#     docker compose down
+# ──────────────────────────────────────────────────────────────
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: dev
+    container_name: rp-agb-frontend
+    ports:
+      # Cambiá FRONTEND_PORT en .env si el 3000 está ocupado
+      - "${FRONTEND_PORT:-3000}:3000"
+    volumes:
+      # El código fuente se monta para hot-reload Y para que pnpm-lock.yaml
+      # quede escrito en el host (para poder commitearlo)
+      - ./frontend:/app
+      # Volumen anónimo: evita que .next del host pise la caché del container
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true   # necesario en Windows para hot-reload
+    restart: unless-stopped
+
+# ──────────────────────────────────────────────────────────────
+# Servicios futuros (APIs .NET, base de datos, etc.) se agregan
+# aquí como nuevos "services:"
+# ──────────────────────────────────────────────────────────────
