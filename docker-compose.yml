@@ -32,8 +32,47 @@ services:
       - NODE_ENV=development
       - WATCHPACK_POLLING=true   # necesario en Windows para hot-reload
     restart: unless-stopped
+    networks:
+      - app_network
 
 # ──────────────────────────────────────────────────────────────
 # Servicios futuros (APIs .NET, base de datos, etc.) se agregan
 # aquí como nuevos "services:"
 # ──────────────────────────────────────────────────────────────
+
+  db:
+    image: postgres:16-alpine
+    container_name: postgres_db
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: rp-agb-backend
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+    depends_on:
+      - db
+    networks:
+      - app_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  app_network:
+    driver: bridge
