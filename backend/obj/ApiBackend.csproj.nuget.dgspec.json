@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/app/ApiBackend.csproj": {}
+    "C:\\Users\\melvi\\Proyecto_Pas\\RP-AGB\\backend\\ApiBackend.csproj": {}
   },
   "projects": {
-    "/app/ApiBackend.csproj": {
+    "C:\\Users\\melvi\\Proyecto_Pas\\RP-AGB\\backend\\ApiBackend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/app/ApiBackend.csproj",
+        "projectUniqueName": "C:\\Users\\melvi\\Proyecto_Pas\\RP-AGB\\backend\\ApiBackend.csproj",
         "projectName": "ApiBackend",
-        "projectPath": "/app/ApiBackend.csproj",
-        "packagesPath": "/root/.nuget/packages/",
-        "outputPath": "/app/obj/",
+        "projectPath": "C:\\Users\\melvi\\Proyecto_Pas\\RP-AGB\\backend\\ApiBackend.csproj",
+        "packagesPath": "C:\\Users\\melvi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\melvi\\Proyecto_Pas\\RP-AGB\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/root/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\melvi\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -24,6 +24,7 @@
         },
         "frameworks": {
           "net8.0": {
+            "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {}
           }
@@ -37,15 +38,23 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "10.0.400"
       },
       "frameworks": {
         "net8.0": {
+          "framework": "net8.0",
           "targetAlias": "net8.0",
           "dependencies": {
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.32, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[10.0.13, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -63,6 +72,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.32, 8.0.32]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[8.0.32, 8.0.32]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.32, 8.0.32]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.32, 8.0.32]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -71,7 +98,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.426/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.402/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
