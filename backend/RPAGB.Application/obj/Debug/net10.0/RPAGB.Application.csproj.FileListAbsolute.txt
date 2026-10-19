@@ -1,0 +1,16 @@
+C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Application\bin\Debug\net10.0\RPAGB.Application.deps.json
+C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Application\bin\Debug\net10.0\RPAGB.Application.dll
+C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Application\bin\Debug\net10.0\RPAGB.Application.pdb
+C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Application\bin\Debug\net10.0\RPAGB.Domain.dll
+C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Application\bin\Debug\net10.0\RPAGB.Domain.pdb
+C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Application\obj\Debug\net10.0\RPAGB.Application.csproj.AssemblyReference.cache
+C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Application\obj\Debug\net10.0\RPAGB.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Application\obj\Debug\net10.0\RPAGB.Application.AssemblyInfoInputs.cache
+C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Application\obj\Debug\net10.0\RPAGB.Application.AssemblyInfo.cs
+C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Application\obj\Debug\net10.0\RPAGB.Application.csproj.CoreCompileInputs.cache
+C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Application\obj\Debug\net10.0\RPAGB.Application.sourcelink.json
+C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Application\obj\Debug\net10.0\RPAGB.Ap.47927F84.Up2Date
+C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Application\obj\Debug\net10.0\RPAGB.Application.dll
+C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Application\obj\Debug\net10.0\refint\RPAGB.Application.dll
+C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Application\obj\Debug\net10.0\RPAGB.Application.pdb
+C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Application\obj\Debug\net10.0\ref\RPAGB.Application.dll
