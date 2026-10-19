@@ -192,7 +192,7 @@ La estrategia deberá ser revisada y aprobada por el Tech Lead y el Scrum Master
 | Responsable | Resultado | Fecha |
 |---|---|---|
 | QA | Elaboración del documento | 15/10/2026 |
-| Tech Lead | Pendiente de revisión | Por definir |
+| Tech Lead | APROBADO | 19/10/2026 |
 | Scrum Master | Pendiente de revisión | Por definir |
 
 La aprobación se registrará mediante el mecanismo acordado por el equipo, como la revisión del Pull Request o la confirmación documentada correspondiente.
