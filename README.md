@@ -100,6 +100,9 @@ Esto actualiza el `package.json` y `pnpm-lock.yaml` dentro del contenedor, y los
 | [pnpm](https://pnpm.io/) | 9+ | Package manager |
 | [Node.js](https://nodejs.org/) | 20 LTS | Runtime (embebido en Docker) |
 | [Docker](https://www.docker.com/) | — | Entorno de desarrollo y producción |
+
+
+
 --Extra--
 --Levantar la infraestructura --
 Asegúrate de que Docker Desktop esté abierto y ejecutándose. Luego, compila y levanta todos los servicios con un solo comando:
