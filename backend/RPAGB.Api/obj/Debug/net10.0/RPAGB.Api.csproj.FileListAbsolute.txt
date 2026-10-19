@@ -131,4 +131,3 @@ C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Api\bin\Debug\net10.0\
 C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Api\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Api\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Api\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
-C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Api\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

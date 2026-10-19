@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RPAGB.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5032ddcd937cdf45b136f160edb51b70641a0f63")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a9dd971e39889c8ff7082e4a6317daa1674ba854")]
 [assembly: System.Reflection.AssemblyProductAttribute("RPAGB.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RPAGB.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

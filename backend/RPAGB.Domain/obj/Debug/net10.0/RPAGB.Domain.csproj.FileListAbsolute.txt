@@ -10,4 +10,3 @@ C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Domain\obj\Debug\net10
 C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Domain\obj\Debug\net10.0\refint\RPAGB.Domain.dll
 C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Domain\obj\Debug\net10.0\RPAGB.Domain.pdb
 C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Domain\obj\Debug\net10.0\ref\RPAGB.Domain.dll
-C:\Users\Usuario\Documents\programas\RP-AGB\BACKEND\RPAGB.Domain\obj\Debug\net10.0\RPAGB.Do.5F03354C.Up2Date
