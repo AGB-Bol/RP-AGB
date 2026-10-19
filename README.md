@@ -100,3 +100,27 @@ Esto actualiza el `package.json` y `pnpm-lock.yaml` dentro del contenedor, y los
 | [pnpm](https://pnpm.io/) | 9+ | Package manager |
 | [Node.js](https://nodejs.org/) | 20 LTS | Runtime (embebido en Docker) |
 | [Docker](https://www.docker.com/) | — | Entorno de desarrollo y producción |
+--Extra--
+--Levantar la infraestructura --
+Asegúrate de que Docker Desktop esté abierto y ejecutándose. Luego, compila y levanta todos los servicios con un solo comando:
+
+docker compose up -d --build
+Paso 4: Validar el estado
+Para confirmar que Frontend, Backend, Base de Datos y Nginx están funcionando, ejecuta:
+
+Bash
+docker compose ps
+(Los 4 contenedores deben aparecer en estado Up o Running).
+
+Paso 5: Acceder a la aplicación
+Abre tu navegador web e ingresa a:
+
+Frontend: http://localhost
+
+Backend (Prueba API): http://localhost:8080/weatherforecast
+
+Paso 6: Apagar el entorno
+Para liberar memoria al finalizar las pruebas, apaga los contenedores (los datos de Postgres se mantendrán a salvo en el volumen):
+
+Bash
+docker compose down
