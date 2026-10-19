@@ -33,3 +33,7 @@ pnpm-debug.log*
 # Docker volumes locales
 .docker-data/
 frontend/.pnpm-store/
+
+# Archivos generados por .NET
+**/bin/
+**/obj/
