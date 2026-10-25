@@ -2,7 +2,7 @@
 # docker-compose.yml — RP-AGB
 #
 # USO:
-#   Primera vez / después de cambiar package.json:
+#   Primera vez / después de cambios:
 #     docker compose up --build
 #
 #   Día a día:
@@ -32,8 +32,64 @@ services:
       - NODE_ENV=development
       - WATCHPACK_POLLING=true   # necesario en Windows para hot-reload
     restart: unless-stopped
+    networks:
+      - app_network
 
-# ──────────────────────────────────────────────────────────────
-# Servicios futuros (APIs .NET, base de datos, etc.) se agregan
-# aquí como nuevos "services:"
-# ──────────────────────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: postgres_db
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app_network
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: rp-agb-backend
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app_network
+    restart: unless-stopped
+
+  reverse-proxy:
+    image: nginx:alpine
+    container_name: nginx_proxy
+    ports:
+      - "80:80" # Nginx es el ÚNICO que expone el puerto al exterior
+    volumes:
+      # Inyectamos el archivo de configuración de Nginx
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - app_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  app_network:
+    driver: bridge

@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="RPAGB.Api/RPAGB.Api.csproj" />
+    <Project Path="RPAGB.Application/RPAGB.Application.csproj" />
+    <Project Path="RPAGB.Domain/RPAGB.Domain.csproj" />
+    <Project Path="RPAGB.Infrastructure/RPAGB.Infrastructure.csproj" />
+  </Folder>
+</Solution>

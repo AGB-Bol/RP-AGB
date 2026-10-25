@@ -22,6 +22,8 @@ Thumbs.db
 # IDEs
 .vscode/
 .idea/
+.vs/
+**/.vs/
 *.suo
 *.user
 
@@ -32,3 +34,8 @@ pnpm-debug.log*
 
 # Docker volumes locales
 .docker-data/
+frontend/.pnpm-store/
+
+# Archivos generados por .NET
+**/bin/
+**/obj/
