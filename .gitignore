@@ -32,3 +32,10 @@ pnpm-debug.log*
 
 # Docker volumes locales
 .docker-data/
+
+# Caché de pnpm
+.pnpm-store/
+**/.pnpm-store/
+frontend/.pnpm-store/
+
+node_modules/

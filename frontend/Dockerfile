@@ -1,10 +1,10 @@
 # ─────────────────────────────────────────────
 # Stage 1: base — Node 20 LTS con pnpm
 # ─────────────────────────────────────────────
-FROM node:20-alpine AS base
+FROM node:22-alpine AS base
 
 # Pinear versión exacta evita sorpresas con breaking changes (ej: pnpm v12)
-RUN corepack enable && corepack prepare pnpm@9.15.9 --activate
+RUN corepack enable && corepack prepare pnpm@11.15.1 --activate
 
 WORKDIR /app
 
@@ -14,12 +14,16 @@ WORKDIR /app
 # ─────────────────────────────────────────────
 FROM base AS dev
 
+# Copiar manifiestos ANTES de que el volumen los tape,
+# así pnpm sabe qué instalar aunque node_modules no exista.
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml* ./
+
 EXPOSE 3000
 
-# pnpm install corre en el entrypoint:
-#   - Si no hay lockfile lo genera en ./frontend (visible en el host)
-#   - Si ya existe el lockfile, pnpm es suficientemente inteligente
-#     para saber que no hay nada nuevo y el arranque es casi instantáneo
+# node_modules se instala dentro del contenedor.
+# El volumen ./frontend:/app tapa el resto del código (hot-reload),
+# pero node_modules queda aislado gracias al volumen anónimo /app/node_modules
+# declarado en docker-compose.yml.
 CMD ["sh", "-c", "pnpm install && pnpm dev"]
 
 # ─────────────────────────────────────────────
@@ -46,7 +50,7 @@ RUN pnpm build
 # ─────────────────────────────────────────────
 # Stage 5: prod — imagen final mínima
 # ─────────────────────────────────────────────
-FROM node:20-alpine AS prod
+FROM node:22-alpine AS prod
 
 RUN addgroup --system --gid 1001 nodejs \
   && adduser --system --uid 1001 nextjs

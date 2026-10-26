@@ -28,6 +28,9 @@ services:
       - ./frontend:/app
       # Volumen anónimo: evita que .next del host pise la caché del container
       - /app/.next
+      # Volumen anónimo: node_modules compilado para Linux (Alpine),
+      # no debe mezclarse con el node_modules de Windows del host
+      - /app/node_modules
     environment:
       - NODE_ENV=development
       - WATCHPACK_POLLING=true   # necesario en Windows para hot-reload
