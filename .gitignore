@@ -1,27 +1,39 @@
-# ──────────────────────────────────────────────────────────────
-# .gitignore — RP-AGB
-# ──────────────────────────────────────────────────────────────
+﻿# RP-AGB - Git Ignore
 
-# Variables de entorno — NUNCA commitear
+# Environment variables
 .env
 .env.local
 .env.*.local
 
-# Dependencias
+# Node.js dependencies
 node_modules/
 **/node_modules/
 
-# Build de Next.js
+# pnpm cache
+.pnpm-store/
+**/.pnpm-store/
+frontend/.pnpm-store/
+
+# Next.js generated files
 frontend/.next/
 frontend/out/
 
-# Archivos de sistema
+# TypeScript generated files
+*.tsbuildinfo
+
+# .NET generated files
+**/bin/
+**/obj/
+
+# Operating system files
 .DS_Store
 Thumbs.db
 
 # IDEs
 .vscode/
 .idea/
+.vs/
+**/.vs/
 *.suo
 *.user
 
@@ -30,16 +42,5 @@ Thumbs.db
 npm-debug.log*
 pnpm-debug.log*
 
-# Docker volumes locales
+# Docker local volumes
 .docker-data/
-
-# Caché de pnpm
-.pnpm-store/
-**/.pnpm-store/
-frontend/.pnpm-store/
-
-node_modules/
-.pnpm-store/
-frontend/.pnpm-store/
-*.tsbuildinfo
-
