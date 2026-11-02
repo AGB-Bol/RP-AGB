@@ -39,3 +39,7 @@ pnpm-debug.log*
 frontend/.pnpm-store/
 
 node_modules/
+.pnpm-store/
+frontend/.pnpm-store/
+*.tsbuildinfo
+
