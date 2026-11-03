@@ -1,8 +1,6 @@
-"use client";
+﻿"use client";
 
 import { useState, type FormEvent, type ChangeEvent } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
 import { Button }  from "@/components/ui/Button";
 import { Input }   from "@/components/ui/Input";
@@ -139,8 +137,6 @@ function PasswordStrengthMeter({ password }: { password: string }) {
    PÁGINA DE REGISTRO
 ══════════════════════════════════════════════════════ */
 export default function RegistroPage() {
-  const { login }  = useAuth();
-  const router     = useRouter();
   const { theme, toggleTheme } = useTheme();
 
   const [name,        setName]        = useState("");
@@ -197,41 +193,17 @@ export default function RegistroPage() {
     return Object.keys(errs).length === 0;
   }
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setError("");
 
     if (!validate()) return;
 
-    setLoading(true);
-
-    // Simulación de latencia + registro (A09: log del intento)
-    console.info("[REGISTRO] Intento de registro:", { email: email.trim(), timestamp: new Date().toISOString() });
-    await new Promise((r) => setTimeout(r, 1000));
-
-    // Mock: en prod → POST /api/auth/register
-    // Verificar si el email ya existe (mock)
-    const existingEmails = ["admin@rp-agb.com", "gerencia@rp-agb.com", "asociado@rp-agb.com"];
-    if (existingEmails.includes(email.trim().toLowerCase())) {
-      // A04: Mensaje genérico para no revelar si el email existe
-      setError("No fue posible completar el registro. Verificá los datos ingresados.");
-      setLoading(false);
-      return;
-    }
-
-    // Registro exitoso → auto-login como cliente (A01: rol mínimo)
-    setSuccess(true);
-    setLoading(false);
-
-    await new Promise((r) => setTimeout(r, 1500));
-    login({
-      name:  name.trim(),
-      email: email.trim().toLowerCase(),
-      role:  "cliente", // A01: Rol público = mínimo privilegio
-    });
-    router.push("/dashboard/cliente");
+    setSuccess(false);
+    setError(
+      "El registro de nuevas cuentas todavía no está habilitado. Contactá al administrador de AGB para solicitar acceso."
+    );
   };
-
   /* ── Vista de éxito ── */
   if (success) {
     return (

@@ -13,6 +13,10 @@ public class LoginResponseDto
     public UserDto? User { get; set; }
     public List<string> Roles { get; set; } = new();
     public List<string> Permissions { get; set; } = new();
+
+    public string? AccessToken { get; set; }
+    public string? RefreshToken { get; set; }
+    public DateTime? ExpiresAt { get; set; }
 }
 
 public class UserDto
@@ -34,4 +38,9 @@ public class DbHealthCheckDto
     public int RolesCount { get; set; }
     public int PermissionsCount { get; set; }
     public List<string> SeededRoles { get; set; } = new();
+}
+
+public class RefreshTokenRequestDto
+{
+    public string RefreshToken { get; set; } = string.Empty;
 }
