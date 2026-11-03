@@ -1,23 +1,33 @@
-"use client";
+﻿"use client";
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth, type UserRole } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
-import { Button }  from "@/components/ui/Button";
-import { Input }   from "@/components/ui/Input";
-import { Alert }   from "@/components/ui/Alert";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Alert } from "@/components/ui/Alert";
 import { MailIcon, LockIcon, EyeIcon, EyeOffIcon } from "@/components/icons/Icons";
 import Link from "next/link";
 
-/* ── Mock credentials — reemplazar con llamada real a la API ── */
-const MOCK_USERS: Record<string, { password: string; name: string; role: UserRole }> = {
-  "admin@rp-agb.com":    { password: "admin123",    name: "Administrador",   role: "admin"    },
-  "gerencia@rp-agb.com": { password: "gerencia123", name: "Carlos Gerente",  role: "gerencia" },
-  "asociado@rp-agb.com": { password: "asociado123", name: "Laura Asociada",  role: "asociado" },
-  "cliente@rp-agb.com":  { password: "cliente123",  name: "Juan Pérez",      role: "cliente"  },
-  "operador@rp-agb.com": { password: "operador123", name: "Miguel Operador", role: "operador" },
-};
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080/api";
+
+interface LoginApiResponse {
+  success: boolean;
+  message?: string;
+  user?: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+  };
+  roles?: string[];
+  permissions?: string[];
+  accessToken?: string;
+  refreshToken?: string;
+  expiresAt?: string | null;
+}
 
 function SunIcon() {
   return (
@@ -46,42 +56,124 @@ function MoonIcon() {
 }
 
 export default function LoginPage() {
-  const { login }  = useAuth();
-  const router     = useRouter();
+  const { login } = useAuth();
+  const router = useRouter();
   const { theme, toggleTheme } = useTheme();
 
-  const [email,    setEmail]    = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPwd,  setShowPwd]  = useState(false);
+  const [showPwd, setShowPwd] = useState(false);
   const [remember, setRemember] = useState(false);
-  const [loading,  setLoading]  = useState(false);
-  const [error,    setError]    = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
 
-    if (!email.trim()) { setError("El correo electrónico es obligatorio."); return; }
-    if (!password)     { setError("La contraseña es obligatoria."); return; }
+    const normalizedEmail = email.trim().toLowerCase();
 
-    setLoading(true);
-    await new Promise((r) => setTimeout(r, 800)); // simular latencia
-
-    const found = MOCK_USERS[email.trim().toLowerCase()];
-
-    if (!found || found.password !== password) {
-      setError("Credenciales incorrectas. Verificá tu correo y contraseña.");
-      setLoading(false);
+    if (!normalizedEmail) {
+      setError("El correo electrónico es obligatorio.");
       return;
     }
 
-    login({ name: found.name, email: email.trim().toLowerCase(), role: found.role });
-    router.push(`/dashboard/${found.role}`);
+    if (!password) {
+      setError("La contraseña es obligatoria.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/Auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: normalizedEmail,
+          password,
+        }),
+      });
+
+      const data = (await response.json().catch(() => null)) as LoginApiResponse | null;
+
+      if (!response.ok || !data?.success || !data.user) {
+        setError(data?.message || "No fue posible iniciar sesión. Verificá tus credenciales.");
+        return;
+      }
+
+      const roles = data.roles ?? [];
+      const normalizedRoles = roles.map((role) => role.toUpperCase());
+
+      let appRole: UserRole | null = null;
+
+      if (normalizedRoles.includes("SUPERADMIN") || normalizedRoles.includes("ADMIN")) {
+        appRole = "admin";
+      } else if (normalizedRoles.includes("OPERADOR")) {
+        appRole = "operador";
+      }
+
+      if (!appRole) {
+        if (data.refreshToken) {
+          try {
+            await fetch(`${API_BASE_URL}/Auth/logout`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                refreshToken: data.refreshToken,
+              }),
+            });
+          } catch {
+            // No se establece una sesión local para roles sin dashboard.
+          }
+        }
+
+        setError(
+          `Tu cuenta tiene el rol ${roles.join(", ") || "sin rol asignado"}, pero todavía no tiene un dashboard habilitado. Contactá al administrador.`
+        );
+        return;
+      }
+
+      if (!data.accessToken || !data.refreshToken) {
+        setError("El servidor no devolvió los tokens necesarios para iniciar sesión.");
+        return;
+      }
+
+      const fullName = [
+        data.user.firstName,
+        data.user.lastName,
+      ].filter(Boolean).join(" ");
+
+      login(
+        {
+          id: String(data.user.id),
+          name: fullName || data.user.email,
+          email: data.user.email,
+          role: appRole,
+        },
+        {
+          accessToken: data.accessToken,
+          refreshToken: data.refreshToken,
+          expiresAt: data.expiresAt ?? null,
+          roles,
+          permissions: data.permissions ?? [],
+        }
+      );
+
+      router.push(`/dashboard/${appRole}`);
+    } catch {
+      setError(
+        "No se pudo conectar con el servidor. Verificá que el backend esté funcionando."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="login-page">
-      {/* Botón de tema — esquina superior derecha */}
       <button
         id="btn-login-theme-toggle"
         className="theme-toggle-btn"
@@ -94,7 +186,6 @@ export default function LoginPage() {
       </button>
 
       <div className="login-card">
-        {/* Marca */}
         <div className="login-brand">
           <div className="login-brand-icon">RP</div>
           <span className="login-brand-name">RP-AGB</span>
@@ -103,7 +194,6 @@ export default function LoginPage() {
         <h1 className="login-heading">Iniciar sesión</h1>
         <p className="login-sub">Ingresá tus credenciales para continuar.</p>
 
-        {/* Alerta de error */}
         {error && <Alert variant="error">{error}</Alert>}
 
         <form onSubmit={handleSubmit} noValidate>
@@ -142,7 +232,6 @@ export default function LoginPage() {
             }
           />
 
-          {/* Recordarme / Olvidé contraseña */}
           <div className="form-row">
             <label className="form-checkbox-label">
               <input
@@ -169,11 +258,17 @@ export default function LoginPage() {
         </form>
 
         <p className="login-hint">
-          Demo → <code>admin</code> / <code>gerencia</code> / <code>asociado</code> / <code>cliente</code> / <code>operador</code> @rp-agb.com
-          <br />Contraseña: <code>[rol]123</code> (ej: admin123)
+          Ingresá con una cuenta habilitada por el administrador.
         </p>
 
-        <p className="login-hint" style={{ marginTop: "var(--space-3)", borderTop: "1px solid var(--color-border)", paddingTop: "var(--space-3)" }}>
+        <p
+          className="login-hint"
+          style={{
+            marginTop: "var(--space-3)",
+            borderTop: "1px solid var(--color-border)",
+            paddingTop: "var(--space-3)",
+          }}
+        >
           ¿No tenés cuenta?{" "}
           <Link href="/registro" style={{ fontWeight: 600 }}>
             Registrate gratis
@@ -183,4 +278,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
